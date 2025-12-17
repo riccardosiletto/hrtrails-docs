@@ -589,6 +589,113 @@
             font-size: 9pt;
             color: var(--text-muted);
         }
+
+        /* ========== MOBILE RESPONSIVE ========== */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                max-width: 100%;
+                padding: 1cm 0.5cm;
+                font-size: 11pt;
+            }
+
+            .cover {
+                min-height: 100vh;
+                padding: 2cm 1cm;
+                margin-bottom: 1cm;
+            }
+
+            .cover-type {
+                font-size: 10pt;
+                margin-bottom: 2cm;
+            }
+
+            .cover-subtitle {
+                font-size: 14pt;
+            }
+
+            .cover-date,
+            .cover-version {
+                display: block;
+                width: 100%;
+                text-align: center !important;
+            }
+
+            h1 {
+                font-size: 20pt;
+            }
+
+            h2 {
+                font-size: 16pt;
+            }
+
+            h3 {
+                font-size: 13pt;
+            }
+
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                font-size: 9pt;
+                min-width: 100%;
+            }
+
+            .figure-content {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .arch-layer {
+                min-width: 280px;
+            }
+
+            .flow-box {
+                font-size: 9pt;
+                padding: 0.3cm;
+            }
+
+            .toc-item {
+                font-size: 10pt;
+            }
+
+            .page-break {
+                page-break-before: auto;
+                margin: 1cm 0;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 0.5cm 0.3cm;
+                font-size: 10pt;
+            }
+
+            .cover {
+                padding: 1.5cm 0.5cm;
+            }
+
+            .cover img {
+                max-width: 150px !important;
+            }
+
+            table {
+                font-size: 8pt;
+            }
+
+            h1 {
+                font-size: 18pt;
+            }
+
+            h2 {
+                font-size: 14pt;
+            }
+        }
     </style>
 </head>
 
@@ -602,11 +709,12 @@
             <img src="HR Trails logo.png" alt="HR Trails" style="max-width: 200px; height: auto;">
         </div>
 
-        <p class="cover-subtitle" style="text-align: center;">Career Intelligence Platform<br>per l'Orientamento Professionale Data-Driven</p>
+        <p class="cover-subtitle" style="text-align: center;">Career Intelligence Platform<br>per l'Orientamento
+            Professionale Data-Driven</p>
 
         <div style="text-align: center; margin-top: 3cm;">
             <p class="cover-date" style="margin-bottom: 0.3cm; text-align: center;">Dicembre 2025</p>
-            <p class="cover-version" style="text-align: center;">Versione 1.0 — Documento Confidenziale</p>
+            <p class="cover-version" style="text-align: center;">Bozza 1.0 | Documento Confidenziale</p>
         </div>
     </div>
 
@@ -854,17 +962,20 @@
                 <!-- Report Personalizzati -->
                 <div style="display: flex; justify-content: space-between; gap: 0.5cm;">
                     <div style="flex: 1; text-align: center;">
-                        <div class="flow-box highlight" style="display: inline-block; width: 100%; padding: 0.4cm; font-size: 9pt;">
+                        <div class="flow-box highlight"
+                            style="display: inline-block; width: 100%; padding: 0.4cm; font-size: 9pt;">
                             REPORT<br>PERSONALIZZATO
                         </div>
                     </div>
                     <div style="flex: 1; text-align: center;">
-                        <div class="flow-box highlight" style="display: inline-block; width: 100%; padding: 0.4cm; font-size: 9pt;">
+                        <div class="flow-box highlight"
+                            style="display: inline-block; width: 100%; padding: 0.4cm; font-size: 9pt;">
                             REPORT<br>PERSONALIZZATO
                         </div>
                     </div>
                     <div style="flex: 1; text-align: center;">
-                        <div class="flow-box highlight" style="display: inline-block; width: 100%; padding: 0.4cm; font-size: 9pt;">
+                        <div class="flow-box highlight"
+                            style="display: inline-block; width: 100%; padding: 0.4cm; font-size: 9pt;">
                             REPORT<br>PERSONALIZZATO
                         </div>
                     </div>
@@ -941,13 +1052,15 @@
     <h3>Scenario</h3>
     <p>
         <em>Sara, 23 anni, neolaureata in Informatica al Politecnico di Milano, vuole capire su quali competenze
-            investire per massimizzare le sue opportunità nella consulenza tech e quanto può aspettarsi come RAL iniziale.</em>
+            investire per massimizzare le sue opportunità nella consulenza tech e quanto può aspettarsi come RAL
+            iniziale.</em>
     </p>
 
     <h3>Moduli Disponibili</h3>
 
     <div class="table-container no-break">
-        <p class="table-caption"><strong>Tabella 4.</strong> Moduli disponibili per il segmento Studenti/Neolaureati.</p>
+        <p class="table-caption"><strong>Tabella 4.</strong> Moduli disponibili per il segmento Studenti/Neolaureati.
+        </p>
         <table>
             <thead>
                 <tr>
@@ -996,7 +1109,8 @@
     <h3>Moduli Disponibili</h3>
 
     <div class="table-container no-break">
-        <p class="table-caption"><strong>Tabella 5.</strong> Moduli disponibili per il segmento Giovani Professionisti.</p>
+        <p class="table-caption"><strong>Tabella 5.</strong> Moduli disponibili per il segmento Giovani Professionisti.
+        </p>
         <table>
             <thead>
                 <tr>
