@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Trails - Documentazione Tecnica</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #6a6a6a;
+            --border: #d0d0d0;
+            --bg-light: #f8f8f8;
+            --accent: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 2.5cm;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            .no-break {
+                page-break-inside: avoid;
+            }
+        }
+
+        body {
+            font-family: 'Crimson Pro', 'Times New Roman', Georgia, serif;
+            font-size: 12pt;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: white;
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 2.5cm;
+        }
+
+        /* ========== COVER PAGE ========== */
+        .cover {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            border: 2px solid var(--text-primary);
+            padding: 4cm 2cm;
+            margin-bottom: 2cm;
+        }
+
+        .cover-institution {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 11pt;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-secondary);
+            margin-bottom: 3cm;
+        }
+
+        .cover-title {
+            font-size: 28pt;
+            font-weight: 700;
+            margin-bottom: 0.5cm;
+            line-height: 1.2;
+        }
+
+        .cover-subtitle {
+            font-size: 16pt;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 2cm;
+        }
+
+        .cover-type {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 12pt;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 3cm;
+        }
+
+        .cover-authors {
+            font-size: 12pt;
+            margin-bottom: 0.5cm;
+        }
+
+        .cover-affiliation {
+            font-size: 10pt;
+            color: var(--text-muted);
+            margin-bottom: 2cm;
+        }
+
+        .cover-date {
+            font-size: 11pt;
+            color: var(--text-secondary);
+        }
+
+        .cover-version {
+            font-size: 9pt;
+            color: var(--text-muted);
+            margin-top: 0.3cm;
+        }
+
+        /* ========== ABSTRACT ========== */
+        .abstract {
+            margin: 2cm 0;
+            padding: 1cm 1.5cm;
+            background: var(--bg-light);
+            border-left: 3px solid var(--text-primary);
+        }
+
+        .abstract-title {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 11pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5cm;
+        }
+
+        .abstract p {
+            text-align: justify;
+            font-size: 11pt;
+        }
+
+        .keywords {
+            margin-top: 0.5cm;
+            font-size: 10pt;
+        }
+
+        .keywords strong {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+        }
+
+        /* ========== HEADINGS ========== */
+        h1 {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 18pt;
+            font-weight: 700;
+            margin-top: 1.5cm;
+            margin-bottom: 0.5cm;
+            padding-bottom: 0.3cm;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 .chapter-num {
+            display: block;
+            font-size: 11pt;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 0.2cm;
+        }
+
+        h2 {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 14pt;
+            font-weight: 700;
+            margin-top: 1cm;
+            margin-bottom: 0.4cm;
+        }
+
+        h3 {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 12pt;
+            font-weight: 600;
+            margin-top: 0.8cm;
+            margin-bottom: 0.3cm;
+        }
+
+        h4 {
+            font-size: 11pt;
+            font-weight: 600;
+            font-style: italic;
+            margin-top: 0.5cm;
+            margin-bottom: 0.2cm;
+        }
+
+        /* ========== PARAGRAPHS ========== */
+        p {
+            margin-bottom: 0.4cm;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        p+p {
+            text-indent: 1cm;
+        }
+
+        /* ========== LISTS ========== */
+        ul,
+        ol {
+            margin: 0.5cm 0 0.5cm 1cm;
+        }
+
+        li {
+            margin-bottom: 0.2cm;
+        }
+
+        /* ========== TABLES ========== */
+        .table-container {
+            margin: 1cm 0;
+        }
+
+        .table-caption {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 10pt;
+            margin-bottom: 0.3cm;
+        }
+
+        .table-caption strong {
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
+        }
+
+        th {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-weight: 600;
+            text-align: left;
+            padding: 8px 10px;
+            border-top: 2px solid var(--text-primary);
+            border-bottom: 1px solid var(--text-primary);
+            background: var(--bg-light);
+        }
+
+        td {
+            padding: 6px 10px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: 2px solid var(--text-primary);
+        }
+
+        /* ========== FIGURES ========== */
+        .figure {
+            margin: 1cm 0;
+            text-align: center;
+        }
+
+        .figure-content {
+            border: 1px solid var(--border);
+            padding: 1cm;
+            background: var(--bg-light);
+        }
+
+        .figure-caption {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 10pt;
+            margin-top: 0.3cm;
+            text-align: center;
+        }
+
+        .figure-caption strong {
+            font-weight: 700;
+        }
+
+        /* ========== DIAGRAMS (ASCII-style) ========== */
+        .diagram {
+            font-family: 'Courier New', monospace;
+            font-size: 9pt;
+            line-height: 1.4;
+            white-space: pre;
+            overflow-x: auto;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            padding: 0.8cm;
+            margin: 0.5cm 0;
+        }
+
+        /* ========== FORMULA ========== */
+        .formula {
+            text-align: center;
+            margin: 0.8cm 0;
+            font-size: 13pt;
+            font-style: italic;
+        }
+
+        .formula-number {
+            float: right;
+            font-style: normal;
+            color: var(--text-muted);
+        }
+
+        /* ========== BOXED CONTENT ========== */
+        .definition-box {
+            margin: 0.8cm 0;
+            padding: 0.6cm 0.8cm;
+            border: 1px solid var(--text-primary);
+            background: white;
+        }
+
+        .definition-box .title {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-weight: 700;
+            font-size: 10pt;
+            margin-bottom: 0.3cm;
+        }
+
+        /* ========== CODE ========== */
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            background: var(--bg-light);
+            padding: 1px 4px;
+            border: 1px solid var(--border);
+        }
+
+        pre {
+            font-family: 'Courier New', monospace;
+            font-size: 9pt;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            padding: 0.5cm;
+            overflow-x: auto;
+            margin: 0.5cm 0;
+        }
+
+        /* ========== TOC ========== */
+        .toc {
+            margin: 1cm 0;
+        }
+
+        .toc-title {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 18pt;
+            font-weight: 700;
+            margin-bottom: 1cm;
+            text-align: center;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.15cm 0;
+            border-bottom: 1px dotted var(--border);
+        }
+
+        .toc-item.level-1 {
+            font-weight: 600;
+            margin-top: 0.3cm;
+        }
+
+        .toc-item.level-2 {
+            padding-left: 1cm;
+        }
+
+        .toc-item.level-3 {
+            padding-left: 2cm;
+            font-size: 11pt;
+        }
+
+        /* ========== FOOTNOTES ========== */
+        .footnote {
+            font-size: 9pt;
+            color: var(--text-muted);
+        }
+
+        sup {
+            font-size: 8pt;
+        }
+
+        /* ========== HEADER/FOOTER ========== */
+        .page-header {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 9pt;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.3cm;
+            margin-bottom: 1cm;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* ========== METRICS BOX (Scientific style) ========== */
+        .metrics-table {
+            margin: 0.8cm auto;
+            border: 1px solid var(--text-primary);
+        }
+
+        .metrics-table td {
+            text-align: center;
+            padding: 0.5cm 1cm;
+            border-right: 1px solid var(--border);
+        }
+
+        .metrics-table td:last-child {
+            border-right: none;
+        }
+
+        .metrics-table .value {
+            font-size: 18pt;
+            font-weight: 700;
+            display: block;
+        }
+
+        .metrics-table .label {
+            font-size: 9pt;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========== FLOW DIAGRAM ========== */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3cm;
+            margin: 0.8cm 0;
+        }
+
+        .flow-row {
+            display: flex;
+            gap: 0.5cm;
+            align-items: center;
+        }
+
+        .flow-box {
+            border: 1px solid var(--text-primary);
+            padding: 0.3cm 0.6cm;
+            font-size: 10pt;
+            text-align: center;
+            min-width: 3cm;
+            background: white;
+        }
+
+        .flow-box.highlight {
+            background: var(--bg-light);
+            font-weight: 600;
+        }
+
+        .flow-arrow {
+            font-size: 14pt;
+            color: var(--text-muted);
+        }
+
+        /* ========== COMPARISON ========== */
+        .comparison-table {
+            width: 100%;
+            margin: 0.8cm 0;
+        }
+
+        .comparison-table th {
+            width: 50%;
+            text-align: center;
+        }
+
+        .comparison-table td {
+            vertical-align: top;
+            padding: 0.4cm;
+        }
+
+        .comparison-table ul {
+            margin: 0;
+            padding-left: 1cm;
+        }
+
+        /* ========== BAR CHART (text-based) ========== */
+        .bar-chart {
+            margin: 0.5cm 0;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.2cm;
+            font-size: 10pt;
+        }
+
+        .bar-label {
+            width: 4cm;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 0.5cm;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            margin: 0 0.3cm;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--text-muted);
+        }
+
+        .bar-value {
+            width: 1.5cm;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        /* ========== ARCHITECTURE LAYERS ========== */
+        .arch-layer {
+            border: 1px solid var(--text-primary);
+            margin-bottom: 0.3cm;
+            padding: 0.5cm;
+        }
+
+        .arch-layer-title {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 9pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3cm;
+            color: var(--text-secondary);
+        }
+
+        .arch-components {
+            display: flex;
+            justify-content: center;
+            gap: 0.5cm;
+            flex-wrap: wrap;
+        }
+
+        .arch-component {
+            border: 1px solid var(--border);
+            padding: 0.3cm 0.5cm;
+            font-size: 9pt;
+            text-align: center;
+            background: white;
+        }
+
+        .arch-arrow {
+            text-align: center;
+            font-size: 12pt;
+            color: var(--text-muted);
+            margin: 0.2cm 0;
+        }
+
+        /* ========== TIMELINE ========== */
+        .timeline {
+            margin: 0.8cm 0;
+        }
+
+        .timeline-row {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .timeline-phase {
+            flex: 1;
+            padding: 0.4cm;
+            text-align: center;
+            font-size: 10pt;
+            border-right: 1px solid var(--border);
+        }
+
+        .timeline-phase:last-child {
+            border-right: none;
+        }
+
+        .timeline-phase .name {
+            font-weight: 600;
+        }
+
+        .timeline-phase .period {
+            font-size: 9pt;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==================== COVER PAGE ==================== -->
+    <div class="cover">
+        <p class="cover-type" style="text-align: center;">Documentazione Tecnica e Architetturale</p>
+
+        <div style="margin: 2cm 0 3cm 0; text-align: center;">
+            <img src="HR Trails logo.png" alt="HR Trails" style="max-width: 200px; height: auto;">
+        </div>
+
+        <p class="cover-subtitle" style="text-align: center;">Career Intelligence Platform<br>per l'Orientamento Professionale Data-Driven</p>
+
+        <div style="text-align: center; margin-top: 3cm;">
+            <p class="cover-date" style="margin-bottom: 0.3cm;">Dicembre 2025</p>
+            <p class="cover-version">Versione 1.0 — Documento Confidenziale</p>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== ABSTRACT ==================== -->
+    <div class="abstract">
+        <p class="abstract-title">Abstract</p>
+        <p>Il presente documento descrive l'architettura tecnica e il modello di elaborazione dati della piattaforma
+            <strong>HR Trails</strong>, un sistema di orientamento professionale data-driven destinato a giovani
+            professionisti nelle fasi cruciali delle loro scelte formative e di carriera. A differenza degli approcci
+            tradizionali basati su test attitudinali e percezioni soggettive, HR Trails sfrutta una base dati
+            proprietaria di mappature di competenze reali per generare insight personalizzati e benchmark comparativi.
+            Il cuore del sistema è il <em>Career Intelligence Engine</em>, un modulo di elaborazione che implementa
+            algoritmi proprietari per lo scoring dei percorsi formativi, l'analisi dei gap di competenze e la predizione
+            delle traiettorie professionali. Il documento presenta l'architettura a microservizi, il catalogo dei
+            datapoint disponibili, le modalità di integrazione dati e la roadmap di sviluppo.
+        </p>
+    </div>
+
+    <!-- ==================== TABLE OF CONTENTS ==================== -->
+    <div class="toc">
+        <p class="toc-title">Indice</p>
+
+        <div class="toc-item level-1"><span>1. Introduzione a HR Trails</span><span>3</span></div>
+        <div class="toc-item level-2"><span>1.1 Cos'è HR Trails</span><span>3</span></div>
+        <div class="toc-item level-2"><span>1.2 La Proposta di Valore</span><span>4</span></div>
+        <div class="toc-item level-2"><span>1.3 Target di Riferimento</span><span>4</span></div>
+        <div class="toc-item level-2"><span>1.4 Come Funziona</span><span>5</span></div>
+
+        <div class="toc-item level-1"><span>2. Architettura della Piattaforma</span><span>6</span></div>
+        <div class="toc-item level-2"><span>2.1 User Experience Design</span><span>6</span></div>
+        <div class="toc-item level-2"><span>2.2 Segmento: Pre-Universitari</span><span>7</span></div>
+        <div class="toc-item level-2"><span>2.3 Segmento: Studenti / Neolaureati</span><span>8</span></div>
+        <div class="toc-item level-2"><span>2.4 Segmento: Giovani Professionisti</span><span>9</span></div>
+        <div class="toc-item level-2"><span>2.5 Output e Deliverable</span><span>10</span></div>
+
+        <div class="toc-item level-1"><span>3. Career Intelligence Engine</span><span>11</span></div>
+        <div class="toc-item level-2"><span>3.1 Architettura del Modulo</span><span>11</span></div>
+        <div class="toc-item level-2"><span>3.2 Algoritmi di Scoring</span><span>12</span></div>
+        <div class="toc-item level-2"><span>3.3 Modelli Predittivi</span><span>14</span></div>
+        <div class="toc-item level-2"><span>3.4 Elementi di Innovazione</span><span>15</span></div>
+
+        <div class="toc-item level-1"><span>4. Architettura Tecnica</span><span>16</span></div>
+        <div class="toc-item level-2"><span>4.1 Overview del Sistema</span><span>16</span></div>
+        <div class="toc-item level-2"><span>4.2 Stack Tecnologico</span><span>17</span></div>
+        <div class="toc-item level-2"><span>4.3 Data Layer e Storage</span><span>18</span></div>
+        <div class="toc-item level-2"><span>4.4 Sicurezza e Privacy</span><span>19</span></div>
+
+        <div class="toc-item level-1"><span>5. Integrazione Dati</span><span>20</span></div>
+        <div class="toc-item level-2"><span>5.1 Catalogo Datapoint</span><span>20</span></div>
+        <div class="toc-item level-2"><span>5.2 Flusso di Sincronizzazione</span><span>21</span></div>
+        <div class="toc-item level-2"><span>5.3 Data Quality e Validation</span><span>22</span></div>
+
+        <div class="toc-item level-1"><span>6. Roadmap di Sviluppo</span><span>23</span></div>
+
+        <div class="toc-item level-1"><span>Appendice A: Glossario Datapoint</span><span>24</span></div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 1 ==================== -->
+    <h1><span class="chapter-num">Capitolo 1</span>Introduzione a HR Trails</h1>
+
+    <h2>1.1 Cos'è HR Trails</h2>
+
+    <p>
+        <strong>HR Trails</strong> è una piattaforma di Career Intelligence progettata per supportare giovani
+        professionisti (17-27 anni) in decisioni formative e di carriera ad alto impatto.
+        A differenza degli approcci tradizionali basati su test attitudinali e valutazioni qualitative,
+        HR Trails utilizza dati empirici del mercato del lavoro per generare benchmark quantitativi e
+        predizioni evidence-based.
+    </p>
+
+    <p>
+        La piattaforma si fonda su tre pilastri metodologici:
+    </p>
+
+    <ul>
+        <li><strong>Analisi comparativa di percorsi formativi</strong> basata su outcome misurabili</li>
+        <li><strong>Skill gap assessment</strong> attraverso confronto con profili target reali</li>
+        <li><strong>Career path prediction</strong> mediante modelli statistici su traiettorie professionali</li>
+    </ul>
+
+    <h2>1.2 La Proposta di Valore</h2>
+
+    <p>
+        La piattaforma integra quattro dataset proprietari (skill mappings, career histories, compensation benchmarks,
+        labour market trends) per generare cinque categorie di output:
+    </p>
+
+    <ul>
+        <li><strong>Confronti quantitativi tra percorsi formativi:</strong> quale università o corso offre i migliori
+            outcome occupazionali per un determinato obiettivo professionale</li>
+        <li><strong>Skill Gap Analysis:</strong> quali competenze mancano rispetto ai profili di successo nel ruolo
+            desiderato</li>
+        <li><strong>Benchmark retributivi:</strong> come si posiziona la propria retribuzione rispetto a profili
+            comparabili</li>
+        <li><strong>Career Path Prediction:</strong> quali sono le traiettorie di carriera più probabili e come
+            accelerarle</li>
+        <li><strong>Roadmap di upskilling personalizzate:</strong> quali skill acquisire per massimizzare le opportunità
+        </li>
+    </ul>
+
+    <h2>1.3 Target di Riferimento</h2>
+
+    <p>
+        Il modello di segmentazione è articolato su tre coorti di utenti, differenziate per fase del lifecycle
+        professionale:
+    </p>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 1.</strong> Segmentazione del target e relative esigenze informative.
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Segmento</th>
+                    <th>Età</th>
+                    <th>Momento Decisionale</th>
+                    <th>Domande Chiave</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Pre-universitari</strong></td>
+                    <td>17-19</td>
+                    <td>Scelta dell'università e del corso di laurea</td>
+                    <td>Quale ateneo? Quale corso? Quali sbocchi?</td>
+                </tr>
+                <tr>
+                    <td><strong>Studenti / Neolaureati</strong></td>
+                    <td>20-25</td>
+                    <td>Ingresso nel mercato del lavoro e prime esperienze</td>
+                    <td>Cosa mi manca? Quanto chiedere? Quale primo lavoro?</td>
+                </tr>
+                <tr>
+                    <td><strong>Giovani professionisti</strong></td>
+                    <td>24-27</td>
+                    <td>Crescita professionale e ottimizzazione carriera</td>
+                    <td>Sono pagato bene? Come crescere? Posso cambiare ruolo?</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>1.4 Come Funziona</h2>
+
+    <p>
+        L'architettura operativa si articola in tre layer sequenziali (Figura 1):
+    </p>
+
+    <div class="figure no-break">
+        <p class="figure-caption"><strong>Figura 1.</strong> Il flusso operativo di HR Trails.</p>
+        <div class="figure-content">
+            <div class="flow-container">
+                <div class="flow-row">
+                    <div class="flow-box">1. PROFILAZIONE</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box highlight">2. ELABORAZIONE</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">3. OUTPUT</div>
+                </div>
+                <div
+                    style="display: flex; justify-content: space-between; margin-top: 0.5cm; font-size: 9pt; color: var(--text-muted);">
+                    <div style="width: 30%; text-align: center;">Segmento, interessi, obiettivi, competenze attuali
+                    </div>
+                    <div style="width: 30%; text-align: center;">Career Intelligence Engine: scoring, matching,
+                        prediction</div>
+                    <div style="width: 30%; text-align: center;">Report personalizzato, benchmark, roadmap</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p>
+        Il sistema implementa un'interfaccia guidata basata su query strutturate, eliminando la necessità di
+        competenze analitiche da parte dell'utente finale.
+    </p>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 2 ==================== -->
+    <h1><span class="chapter-num">Capitolo 2</span>Architettura della Piattaforma</h1>
+
+    <h2>2.1 User Experience Design</h2>
+
+    <p>
+        L'architettura della piattaforma implementa un modello modulare: ogni segmento di utenti accede a un set
+        specifico di moduli di analisi, ciascuno dei quali interroga il database di workforce intelligence secondo
+        parametri predefiniti (Figura 2).
+    </p>
+
+    <div class="figure no-break">
+        <p class="figure-caption"><strong>Figura 2.</strong> Architettura modulare per segmento.</p>
+        <div class="figure-content">
+            <div style="display: flex; flex-direction: column; gap: 0.8cm;">
+                <!-- Homepage -->
+                <div style="text-align: center;">
+                    <div class="flow-box highlight" style="display: inline-block; min-width: 5cm;">HOMEPAGE</div>
+                </div>
+
+                <!-- Frecce da Homepage a Segmenti -->
+                <div style="display: flex; justify-content: space-around; font-size: 14pt; color: var(--text-muted);">
+                    <div style="width: 33%; text-align: center;">↙</div>
+                    <div style="width: 33%; text-align: center;">↓</div>
+                    <div style="width: 33%; text-align: center;">↘</div>
+                </div>
+
+                <!-- Segmentazione -->
+                <div style="display: flex; justify-content: space-between; gap: 0.5cm;">
+                    <div style="flex: 1; border: 2px solid var(--text-primary); padding: 0.5cm; text-align: center;">
+                        <div style="font-weight: 700; margin-bottom: 0.3cm;">PRE-UNIVERSITARI</div>
+                        <div style="font-size: 9pt; line-height: 1.4;">
+                            • Confronto Università<br>
+                            • Analisi Ruolo Target<br>
+                            • Percorsi di Carriera
+                        </div>
+                    </div>
+                    <div style="flex: 1; border: 2px solid var(--text-primary); padding: 0.5cm; text-align: center;">
+                        <div style="font-weight: 700; margin-bottom: 0.3cm;">STUDENTI / NEOLAUREATI</div>
+                        <div style="font-size: 9pt; line-height: 1.4;">
+                            • Gap di Competenze<br>
+                            • Benchmark per Ruolo<br>
+                            • Analisi Primi Impieghi
+                        </div>
+                    </div>
+                    <div style="flex: 1; border: 2px solid var(--text-primary); padding: 0.5cm; text-align: center;">
+                        <div style="font-weight: 700; margin-bottom: 0.3cm;">PROFESSIONISTI</div>
+                        <div style="font-size: 9pt; line-height: 1.4;">
+                            • Benchmark Retributivo<br>
+                            • Transizioni di Ruolo<br>
+                            • Analisi Promozione
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frecce da Segmenti a Report -->
+                <div style="display: flex; justify-content: space-around; font-size: 14pt; color: var(--text-muted);">
+                    <div style="width: 33%; text-align: center;">↓</div>
+                    <div style="width: 33%; text-align: center;">↓</div>
+                    <div style="width: 33%; text-align: center;">↓</div>
+                </div>
+
+                <!-- Report Personalizzati -->
+                <div style="display: flex; justify-content: space-between; gap: 0.5cm;">
+                    <div style="flex: 1; text-align: center;">
+                        <div class="flow-box highlight" style="display: inline-block; width: 100%; padding: 0.4cm; font-size: 9pt;">
+                            REPORT<br>PERSONALIZZATO
+                        </div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div class="flow-box highlight" style="display: inline-block; width: 100%; padding: 0.4cm; font-size: 9pt;">
+                            REPORT<br>PERSONALIZZATO
+                        </div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div class="flow-box highlight" style="display: inline-block; width: 100%; padding: 0.4cm; font-size: 9pt;">
+                            REPORT<br>PERSONALIZZATO
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p>
+        Ciascun modulo esegue query predefinite sul database (filtri per segmento, ruolo, geografia, esperienza)
+        e restituisce aggregazioni statistiche, confronti o gap analysis. L'utente può eseguire più moduli in
+        sequenza per ottenere una vista completa delle proprie opportunità.
+    </p>
+
+    <h2>2.2 Segmento: Pre-Universitari</h2>
+
+    <p>
+        Il segmento pre-universitari richiede supporto decisionale nella fase di selezione del percorso formativo.
+        I moduli disponibili implementano confronti multi-dimensionali basati su outcome misurabili post-laurea
+        (placement rate, compensation, mobilità settoriale) derivati da coorti omogenee di dimensione statisticamente
+        significativa (N > 500 per ateneo). L'approccio elimina bias soggettivi tipici dell'orientamento tradizionale,
+        sostituendo valutazioni qualitative con benchmark quantitativi evidence-based.
+    </p>
+
+    <h3>Scenario</h3>
+    <p>
+        <em>Marco, 18 anni, deve scegliere tra Economia alla Bocconi, Economia a Bologna, o Ingegneria Gestionale
+            al Politecnico di Milano. Vuole capire quale percorso gli offrirà le migliori opportunità.</em>
+    </p>
+
+    <h3>Moduli Disponibili</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 2.</strong> Moduli disponibili per il segmento Pre-Universitari.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Modulo</th>
+                    <th>Query</th>
+                    <th>Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Confronto Università</strong></td>
+                    <td>Filtro per ateneo + corso</td>
+                    <td>Aggregazioni: RAL mediana, placement rate, top employer, settori</td>
+                </tr>
+                <tr>
+                    <td><strong>Analisi Ruolo Target</strong></td>
+                    <td>Filtro per ruolo + città</td>
+                    <td>Percorsi formativi più comuni + outcome (RAL, tempo impiego)</td>
+                </tr>
+                <tr>
+                    <td><strong>Percorsi di Carriera</strong></td>
+                    <td>Filtro per ateneo + corso</td>
+                    <td>Pattern: ruoli tipici a 1/3/5 anni post-laurea</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>2.3 Segmento: Studenti / Neolaureati</h2>
+
+    <p>
+        Il segmento studenti/neolaureati si concentra sull'ottimizzazione dell'ingresso nel mercato del lavoro.
+        I moduli eseguono analisi comparative tra il profilo dell'utente e profili target (skill gap analysis),
+        benchmark retributivi per ruoli entry-level filtrati per geografia e settore, e pattern analysis su
+        traiettorie di carriera post-laurea. Il sistema quantifica distanze skill-based mediante metriche
+        normalizzate (distanza euclidea), restituendo roadmap di upskilling prioritizzate per massimizzare
+        employability e compensation potential.
+    </p>
+
+    <h3>Scenario</h3>
+    <p>
+        <em>Sara, 23 anni, neolaureata in Informatica al Politecnico di Milano, vuole capire su quali competenze
+            investire per massimizzare le sue opportunità nella consulenza tech e quanto può aspettarsi come RAL iniziale.</em>
+    </p>
+
+    <h3>Moduli Disponibili</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 4.</strong> Moduli disponibili per il segmento Studenti/Neolaureati.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Modulo</th>
+                    <th>Query</th>
+                    <th>Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Gap di Competenze</strong></td>
+                    <td>Confronto: skill utente vs skill mediane ruolo target</td>
+                    <td>Gap analysis + roadmap upskilling prioritizzata</td>
+                </tr>
+                <tr>
+                    <td><strong>Benchmark per Ruolo</strong></td>
+                    <td>Filtro per ruolo entry-level + città + settore</td>
+                    <td>RAL mediana, skill richieste, aziende tipiche</td>
+                </tr>
+                <tr>
+                    <td><strong>Analisi Primi Impieghi</strong></td>
+                    <td>Pattern: "primo ruolo X" → outcome a 3 anni</td>
+                    <td>Career paths tipici + RAL progression + mobilità</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>2.4 Segmento: Giovani Professionisti</h2>
+
+    <p>
+        Il segmento giovani professionisti richiede strumenti di ottimizzazione della progressione di carriera.
+        I moduli implementano benchmark retributivi basati su coorti filtrate per ruolo, esperienza, settore e
+        geografia (±1 anno di tenure), analisi di fattibilità per transizioni inter-ruolo (skill gap + success rate
+        + RAL delta), e assessment di readiness per avanzamenti verticali mediante confronto con profili seniority +1.
+        Le distribuzioni percentilari permettono posizionamento preciso rispetto al mercato e identificazione di gap
+        retributivi o competenze statisticamente significativi (> 1 deviazione standard).
+    </p>
+
+    <h3>Scenario</h3>
+    <p>
+        <em>Luca, 26 anni, lavora come Data Analyst in una PMI da 2 anni con RAL di 32k. Vuole capire se è pagato
+            correttamente rispetto al mercato e se può fare il salto verso un ruolo di Data Scientist.</em>
+    </p>
+
+    <h3>Moduli Disponibili</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 5.</strong> Moduli disponibili per il segmento Giovani Professionisti.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Modulo</th>
+                    <th>Query</th>
+                    <th>Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Benchmark Retributivo</strong></td>
+                    <td>Filtro: ruolo + città + esperienza + settore</td>
+                    <td>Distribuzione percentilica RAL + posizionamento utente</td>
+                </tr>
+                <tr>
+                    <td><strong>Transizioni di Ruolo</strong></td>
+                    <td>Pattern: "da ruolo X a ruolo Y"</td>
+                    <td>Skill gap + tempi medi + success rate + RAL delta</td>
+                </tr>
+                <tr>
+                    <td><strong>Analisi Promozione</strong></td>
+                    <td>Confronto: skill utente vs skill mediane seniority +1</td>
+                    <td>Gap analysis + timeline tipica + requisiti aziendali</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>2.5 Output e Deliverable</h2>
+
+    <p>
+        L'output layer genera un <strong>Report Personalizzato</strong> strutturato in cinque sezioni:
+    </p>
+
+    <ul>
+        <li><strong>Executive Summary:</strong> raccomandazione principale con motivazione</li>
+        <li><strong>Analisi Comparativa:</strong> tabelle e grafici di confronto</li>
+        <li><strong>Skill Map:</strong> competenze richieste e gap identificati</li>
+        <li><strong>Career Paths:</strong> traiettorie tipiche a 1, 3, 5 anni</li>
+        <li><strong>Roadmap Actionable:</strong> passi concreti da intraprendere</li>
+    </ul>
+
+    <p>
+        La delivery avviene su due canali paralleli: interfaccia web interattiva con drill-down su dati granulari,
+        e PDF statico ottimizzato per presentazioni executive.
+    </p>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 3 ==================== -->
+    <h1><span class="chapter-num">Capitolo 3</span>Career Intelligence Engine</h1>
+
+    <h2>3.1 Architettura del Modulo</h2>
+
+    <p>
+        Il <strong>Career Intelligence Engine (CIE)</strong> costituisce il nucleo elaborativo della piattaforma.
+        È il componente che trasforma dati grezzi del mercato del lavoro in insight personalizzati e raccomandazioni
+        ordinate per rilevanza. Il CIE riceve in input i dati di profilazione dell'utente e i parametri della sua
+        ricerca, elabora queste informazioni confrontandole con il database di skill maps e career trajectories,
+        e produce output strutturati.
+    </p>
+
+    <p>
+        L'architettura del CIE è organizzata in quattro sotto-moduli, ciascuno responsabile di una specifica
+        funzione elaborativa:
+    </p>
+
+    <div class="figure no-break">
+        <p class="figure-caption"><strong>Figura 7.</strong> Architettura del Career Intelligence Engine.</p>
+        <div class="figure-content">
+            <div class="arch-layer">
+                <div class="arch-layer-title">Input Layer</div>
+                <div class="arch-components">
+                    <div class="arch-component">User Profile</div>
+                    <div class="arch-component">Query Parameters</div>
+                    <div class="arch-component">Context (Segment, Geo)</div>
+                </div>
+            </div>
+            <div class="arch-arrow">↓</div>
+            <div class="arch-layer">
+                <div class="arch-layer-title">Processing Modules</div>
+                <div class="arch-components">
+                    <div class="arch-component">Cohort Builder</div>
+                    <div class="arch-component">Statistical Aggregator</div>
+                    <div class="arch-component">ML Predictor</div>
+                </div>
+            </div>
+            <div class="arch-arrow">↓</div>
+            <div class="arch-layer" style="background: var(--bg-light);">
+                <div class="arch-layer-title">Scoring & Ranking Engine</div>
+                <div class="arch-components">
+                    <div class="arch-component">Path Compatibility Score</div>
+                    <div class="arch-component">Skill Gap Index</div>
+                    <div class="arch-component">Career Acceleration Score</div>
+                </div>
+            </div>
+            <div class="arch-arrow">↓</div>
+            <div class="arch-layer">
+                <div class="arch-layer-title">Output Layer</div>
+                <div class="arch-components">
+                    <div class="arch-component">Ranked Recommendations</div>
+                    <div class="arch-component">Comparative Insights</div>
+                    <div class="arch-component">Personalized Roadmaps</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Descrizione dei Sotto-Moduli</h3>
+
+    <ol>
+        <li><strong>Cohort Builder:</strong> costruisce coorti di profili comparabili sulla base di attributi
+            condivisi (università, corso, area geografica, anni di esperienza). Garantisce che i confronti siano
+            statisticamente significativi e pertinenti.</li>
+        <li><strong>Statistical Aggregator:</strong> calcola metriche aggregate sulla coorte identificata: medie,
+            mediane, percentili, trend temporali, correlazioni tra variabili.</li>
+        <li><strong>ML Predictor:</strong> implementa modelli predittivi per career path forecasting e salary
+            projection, basati su pattern storici di traiettorie simili.</li>
+        <li><strong>Scoring Engine:</strong> assegna punteggi compositi per il ranking delle raccomandazioni,
+            combinando i segnali dei tre moduli precedenti.</li>
+    </ol>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 3 CONTINUED: SCORING ==================== -->
+    <h2>3.2 Algoritmi di Scoring</h2>
+
+    <h3>3.2.1 Path Compatibility Score (PCS)</h3>
+
+    <h3>3.2.2 Skill Gap Index (SGI)</h3>
+
+    <h3>3.2.3 University ROI Index (URI)</h3>
+
+    <h2>3.3 Modelli Predittivi</h2>
+
+    <h2>3.4 Elementi di Innovazione</h2>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 4 ==================== -->
+    <h1><span class="chapter-num">Capitolo 4</span>Architettura Tecnica</h1>
+
+    <h2>4.1 Overview del Sistema</h2>
+
+    <h2>4.2 Stack Tecnologico</h2>
+
+    <h2>4.3 Data Layer e Storage</h2>
+
+    <h2>4.4 Sicurezza e Privacy</h2>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 5 ==================== -->
+    <h1><span class="chapter-num">Capitolo 5</span>Integrazione Dati</h1>
+
+    <h2>5.1 Catalogo Datapoint</h2>
+
+    <h2>5.2 Flusso di Sincronizzazione</h2>
+
+    <h2>5.3 Data Quality e Validation</h2>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 6 ==================== -->
+    <h1><span class="chapter-num">Capitolo 6</span>Roadmap di Sviluppo</h1>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== APPENDIX ==================== -->
+    <h1>Appendice A: Glossario Datapoint</h1>
+
+    <h2>A.1 Dati Anagrafici (Anonimizzati)</h2>
+
+    <h2>A.2 Dati Educativi</h2>
+
+    <h2>A.3 Dati Professionali</h2>
+
+    <h2>A.4 Competenze</h2>
+
+    <h2>A.5 Compensi</h2>
+
+    <div style="margin-top: 3cm; text-align: center; color: var(--text-muted); font-size: 10pt;">
+        <p>— Fine del documento —</p>
+        <p style="margin-top: 1cm;">
+            HR Trails — Documentazione Tecnica v1.0<br>
+            Dicembre 2025
+        </p>
+    </div>
+
+</body>
+
+</html>
