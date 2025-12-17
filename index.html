@@ -1052,71 +1052,106 @@
     <h2>3.1 Architettura del Modulo</h2>
 
     <p>
-        Il <strong>Career Intelligence Engine (CIE)</strong> costituisce il nucleo elaborativo della piattaforma.
-        È il componente che trasforma dati grezzi del mercato del lavoro in insight personalizzati e raccomandazioni
-        ordinate per rilevanza. Il CIE riceve in input i dati di profilazione dell'utente e i parametri della sua
-        ricerca, elabora queste informazioni confrontandole con il database di skill maps e career trajectories,
-        e produce output strutturati.
+        Il <strong>Career Intelligence Engine (CIE)</strong> costituisce il nucleo elaborativo della piattaforma,
+        implementando un'architettura a layer che integra tecniche di statistical computing, pattern recognition
+        e optimization theory. Il sistema elabora i 9 moduli analitici del Capitolo 2 attraverso una pipeline
+        multi-stage che combina operazioni di cohort construction, distributional analysis e predictive scoring.
     </p>
 
     <p>
-        L'architettura del CIE è organizzata in quattro sotto-moduli, ciascuno responsabile di una specifica
-        funzione elaborativa:
+        L'engine garantisce latenze inferiori a <strong>2 secondi (p95)</strong> attraverso l'utilizzo di
+        <em>materialized views</em> pre-computate, <em>columnar indexing</em> su dimensioni chiave
+        (ruolo, geo, seniority, skill) e strategie di <em>query optimization</em> basate su cost-based analysis.
+        Le aggregazioni statistiche operano su coorti di dimensione N≥500 per garantire significatività
+        statistica (confidence interval 95%, margin of error &lt;5%).
+    </p>
+
+    <p>
+        L'architettura del CIE è organizzata in quattro layer funzionali interconnessi:
     </p>
 
     <div class="figure no-break">
-        <p class="figure-caption"><strong>Figura 7.</strong> Architettura del Career Intelligence Engine.</p>
+        <p class="figure-caption"><strong>Figura 7.</strong> Architettura a layer del Career Intelligence Engine.</p>
         <div class="figure-content">
             <div class="arch-layer">
-                <div class="arch-layer-title">Input Layer</div>
+                <div class="arch-layer-title">Input & Context Layer</div>
                 <div class="arch-components">
-                    <div class="arch-component">User Profile</div>
+                    <div class="arch-component">User Profile Vector</div>
                     <div class="arch-component">Query Parameters</div>
-                    <div class="arch-component">Context (Segment, Geo)</div>
+                    <div class="arch-component">Contextual Constraints</div>
                 </div>
             </div>
             <div class="arch-arrow">↓</div>
             <div class="arch-layer">
-                <div class="arch-layer-title">Processing Modules</div>
+                <div class="arch-layer-title">Data Retrieval & Cohort Construction</div>
                 <div class="arch-components">
-                    <div class="arch-component">Cohort Builder</div>
-                    <div class="arch-component">Statistical Aggregator</div>
-                    <div class="arch-component">ML Predictor</div>
+                    <div class="arch-component">Multi-Dimensional Filtering</div>
+                    <div class="arch-component">Cohort Builder (N≥500)</div>
+                    <div class="arch-component">Temporal Windowing</div>
                 </div>
             </div>
             <div class="arch-arrow">↓</div>
             <div class="arch-layer" style="background: var(--bg-light);">
-                <div class="arch-layer-title">Scoring & Ranking Engine</div>
+                <div class="arch-layer-title">Statistical Processing & Pattern Recognition</div>
                 <div class="arch-components">
-                    <div class="arch-component">Path Compatibility Score</div>
-                    <div class="arch-component">Skill Gap Index</div>
-                    <div class="arch-component">Career Acceleration Score</div>
+                    <div class="arch-component">Distributional Analysis</div>
+                    <div class="arch-component">Trajectory Modeling</div>
+                    <div class="arch-component">Correlation Mining</div>
                 </div>
             </div>
             <div class="arch-arrow">↓</div>
             <div class="arch-layer">
-                <div class="arch-layer-title">Output Layer</div>
+                <div class="arch-layer-title">Scoring & Ranking Engine</div>
                 <div class="arch-components">
-                    <div class="arch-component">Ranked Recommendations</div>
-                    <div class="arch-component">Comparative Insights</div>
-                    <div class="arch-component">Personalized Roadmaps</div>
+                    <div class="arch-component">Multi-Criteria Scoring</div>
+                    <div class="arch-component">Confidence Weighting</div>
+                    <div class="arch-component">Personalization Layer</div>
+                </div>
+            </div>
+            <div class="arch-arrow">↓</div>
+            <div class="arch-layer">
+                <div class="arch-layer-title">Output Generation & Formatting</div>
+                <div class="arch-components">
+                    <div class="arch-component">Report Synthesis</div>
+                    <div class="arch-component">Visualization Engine</div>
+                    <div class="arch-component">Insight Extraction</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <h3>Descrizione dei Sotto-Moduli</h3>
+    <h3>Descrizione dei Layer Funzionali</h3>
 
     <ol>
-        <li><strong>Cohort Builder:</strong> costruisce coorti di profili comparabili sulla base di attributi
-            condivisi (università, corso, area geografica, anni di esperienza). Garantisce che i confronti siano
-            statisticamente significativi e pertinenti.</li>
-        <li><strong>Statistical Aggregator:</strong> calcola metriche aggregate sulla coorte identificata: medie,
-            mediane, percentili, trend temporali, correlazioni tra variabili.</li>
-        <li><strong>ML Predictor:</strong> implementa modelli predittivi per career path forecasting e salary
-            projection, basati su pattern storici di traiettorie simili.</li>
-        <li><strong>Scoring Engine:</strong> assegna punteggi compositi per il ranking delle raccomandazioni,
-            combinando i segnali dei tre moduli precedenti.</li>
+        <li>
+            <strong>Input & Context Layer:</strong> riceve il profilo utente rappresentato come vettore di feature
+            (skill possedute, background formativo, esperienza, geo) e i parametri della query. Applica validation
+            rules e arricchimento contestuale (es. mapping di skill sinonimi, normalizzazione job titles).
+        </li>
+        <li>
+            <strong>Data Retrieval & Cohort Construction:</strong> esegue multi-dimensional filtering sul database
+            di workforce intelligence utilizzando indici compositi ottimizzati. Il Cohort Builder garantisce
+            dimensione minima N≥500 per significatività statistica. Temporal Windowing limita l'analisi a dati
+            con freshness &lt;30 giorni per ruoli dinamici, &lt;90 giorni per analisi storiche.
+        </li>
+        <li>
+            <strong>Statistical Processing & Pattern Recognition:</strong> layer computazionalmente intensivo che
+            implementa:<br>
+            • <em>Distributional Analysis</em>: calcolo di percentili, momenti statistici, kernel density estimation<br>
+            • <em>Trajectory Modeling</em>: identificazione di career paths ricorrenti tramite sequence mining<br>
+            • <em>Correlation Mining</em>: analisi di co-occorrenze tra skill, settori, transizioni di ruolo
+        </li>
+        <li>
+            <strong>Scoring & Ranking Engine:</strong> combina output statistici in score compositi utilizzando
+            weighted aggregation. Il Confidence Weighting penalizza score derivati da coorti di dimensione ridotta
+            o con alta varianza. Il Personalization Layer applica boost factor basati su preferenze utente esplicite
+            e implicite.
+        </li>
+        <li>
+            <strong>Output Generation & Formatting:</strong> sintetizza risultati in report strutturati con sezioni
+            narrative, visualization components (distribuzione, trend, confronti) e actionable insights estratti
+            tramite template-based generation e rule-based highlighting di pattern rilevanti.
+        </li>
     </ol>
 
     <div class="page-break"></div>
