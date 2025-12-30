@@ -1290,42 +1290,1295 @@
 
     <h2>4.1 Overview del Sistema</h2>
 
+    <p>
+        L'architettura di HR Trails segue un modello <strong>three-tier</strong> con separazione netta tra presentation layer, business
+        logic e data layer. Il sistema è progettato per garantire scalabilità orizzontale, manutenibilità e tempi
+        di risposta contenuti (&lt;2s per query complesse).
+    </p>
+
+    <div class="figure no-break">
+        <p class="figure-caption"><strong>Figura 8.</strong> Architettura high-level del sistema HR Trails.</p>
+        <div class="figure-content">
+            <div style="display: flex; flex-direction: column; gap: 0.6cm; align-items: center;">
+                <!-- Client Layer -->
+                <div style="border: 2px solid var(--text-primary); padding: 0.5cm 1cm; width: 90%; text-align: center;">
+                    <div style="font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3cm;">CLIENT LAYER</div>
+                    <div style="display: flex; justify-content: space-around; font-size: 9pt;">
+                        <span>Web Application (SPA)</span>
+                        <span>Mobile Web (PWA)</span>
+                        <span>Admin Dashboard</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 10pt; color: var(--text-muted);">↓ HTTPS / REST API</div>
+
+                <!-- API Gateway -->
+                <div style="border: 2px solid var(--text-primary); padding: 0.5cm 1cm; width: 90%; text-align: center; background: var(--bg-light);">
+                    <div style="font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3cm;">API GATEWAY & CDN</div>
+                    <div style="display: flex; justify-content: space-around; font-size: 9pt;">
+                        <span>Edge Caching</span>
+                        <span>Rate Limiting</span>
+                        <span>Request Routing</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 14pt; color: var(--text-muted);">↓</div>
+
+                <!-- Application Layer -->
+                <div style="border: 2px solid var(--text-primary); padding: 0.5cm 1cm; width: 90%; text-align: center;">
+                    <div style="font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3cm;">APPLICATION LAYER</div>
+                    <div style="display: flex; justify-content: space-around; font-size: 9pt;">
+                        <span>API Server</span>
+                        <span>Career Intelligence Engine</span>
+                        <span>Report Generator</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 14pt; color: var(--text-muted);">↓</div>
+
+                <!-- Data Layer -->
+                <div style="border: 2px solid var(--text-primary); padding: 0.5cm 1cm; width: 90%; text-align: center; background: var(--bg-light);">
+                    <div style="font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3cm;">DATA LAYER</div>
+                    <div style="display: flex; justify-content: space-around; font-size: 9pt;">
+                        <span>Primary Database</span>
+                        <span>Analytics Store</span>
+                        <span>Cache Layer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p>
+        La comunicazione tra layer avviene tramite API RESTful con payload JSON. Il sistema implementa pattern
+        di <em>graceful degradation</em>: in caso di indisponibilità di componenti non critici (es. cache), il servizio continua
+        a operare con performance ridotte anziché fallire completamente.
+    </p>
+
     <h2>4.2 Stack Tecnologico</h2>
+
+    <p>
+        La scelta dello stack tecnologico bilancia modernità, performance e pragmatismo implementativo, privilegiando
+        tecnologie con ecosistemi maturi e community attive.
+    </p>
+
+    <h3>4.2.1 Frontend</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 8.</strong> Stack tecnologico frontend.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Componente</th>
+                    <th>Tecnologia</th>
+                    <th>Motivazione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Framework</strong></td>
+                    <td>Next.js 14+ (App Router)</td>
+                    <td>SSR/SSG, ottimizzazione SEO, developer experience</td>
+                </tr>
+                <tr>
+                    <td><strong>Linguaggio</strong></td>
+                    <td>TypeScript</td>
+                    <td>Type safety, refactoring sicuro, IDE support</td>
+                </tr>
+                <tr>
+                    <td><strong>Styling</strong></td>
+                    <td>Tailwind CSS</td>
+                    <td>Utility-first, design system coerente, bundle ottimizzato</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Visualization</strong></td>
+                    <td>Recharts / D3.js</td>
+                    <td>Grafici interattivi, customizzazione avanzata</td>
+                </tr>
+                <tr>
+                    <td><strong>State Management</strong></td>
+                    <td>Zustand + React Query</td>
+                    <td>Stato client leggero, caching server state</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>4.2.2 Backend</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 9.</strong> Stack tecnologico backend.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Componente</th>
+                    <th>Tecnologia</th>
+                    <th>Motivazione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>API Server</strong></td>
+                    <td>Python / FastAPI</td>
+                    <td>Performance async, auto-documentazione OpenAPI, typing</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Processing</strong></td>
+                    <td>Pandas / Polars</td>
+                    <td>Elaborazione dataframe efficiente, aggregazioni complesse</td>
+                </tr>
+                <tr>
+                    <td><strong>ML/Statistics</strong></td>
+                    <td>Scikit-learn / Statsmodels</td>
+                    <td>Modelli predittivi, analisi statistica</td>
+                </tr>
+                <tr>
+                    <td><strong>Task Queue</strong></td>
+                    <td>Celery + Redis</td>
+                    <td>Job asincroni per report generation</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>4.2.3 Infrastruttura</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 10.</strong> Stack infrastrutturale.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Componente</th>
+                    <th>Tecnologia</th>
+                    <th>Motivazione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Frontend Hosting</strong></td>
+                    <td>Vercel</td>
+                    <td>Edge network globale, deploy automatici, preview environments</td>
+                </tr>
+                <tr>
+                    <td><strong>Backend Hosting</strong></td>
+                    <td>Railway / Render</td>
+                    <td>Container managed, scaling automatico, CI/CD integrato</td>
+                </tr>
+                <tr>
+                    <td><strong>Database</strong></td>
+                    <td>PostgreSQL (Supabase/Neon)</td>
+                    <td>ACID compliance, JSON support, estensioni statistiche</td>
+                </tr>
+                <tr>
+                    <td><strong>Cache</strong></td>
+                    <td>Redis (Upstash)</td>
+                    <td>Caching query frequenti, session storage, rate limiting</td>
+                </tr>
+                <tr>
+                    <td><strong>CDN</strong></td>
+                    <td>Cloudflare</td>
+                    <td>Edge caching, DDoS protection, SSL/TLS</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <h2>4.3 Data Layer e Storage</h2>
 
+    <p>
+        Il data layer implementa una strategia di storage ibrida ottimizzata per i diversi pattern di accesso ai dati
+        della piattaforma.
+    </p>
+
+    <h3>4.3.1 Database Primario (PostgreSQL)</h3>
+
+    <p>
+        PostgreSQL gestisce i dati strutturati core con uno schema normalizzato (3NF) per le entità principali e
+        denormalizzato per le tabelle di aggregazione pre-computate.
+    </p>
+
+    <div class="figure no-break">
+        <p class="figure-caption"><strong>Figura 9.</strong> Schema logico semplificato del database.</p>
+        <div class="figure-content">
+            <div style="display: flex; justify-content: space-around; gap: 0.5cm; flex-wrap: wrap;">
+                <!-- universities -->
+                <div style="border: 1px solid var(--border); padding: 0.3cm; min-width: 3cm;">
+                    <div style="font-weight: 700; font-size: 9pt; border-bottom: 1px solid var(--border); padding-bottom: 0.2cm; margin-bottom: 0.2cm;">universities</div>
+                    <div style="font-size: 8pt; font-family: monospace;">id<br>name<br>city<br>type</div>
+                </div>
+                <!-- profiles -->
+                <div style="border: 1px solid var(--border); padding: 0.3cm; min-width: 3.5cm;">
+                    <div style="font-weight: 700; font-size: 9pt; border-bottom: 1px solid var(--border); padding-bottom: 0.2cm; margin-bottom: 0.2cm;">profiles</div>
+                    <div style="font-size: 8pt; font-family: monospace;">id<br>university_id →<br>degree<br>graduation_year<br>current_role<br>current_company<br>experience_years</div>
+                </div>
+                <!-- skills -->
+                <div style="border: 1px solid var(--border); padding: 0.3cm; min-width: 3cm;">
+                    <div style="font-weight: 700; font-size: 9pt; border-bottom: 1px solid var(--border); padding-bottom: 0.2cm; margin-bottom: 0.2cm;">skills</div>
+                    <div style="font-size: 8pt; font-family: monospace;">id<br>name<br>category<br>demand_score</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>4.3.2 Materialized Views</h3>
+
+    <p>
+        Per garantire latenze &lt;2s anche su query complesse, il sistema utilizza <strong>materialized views</strong> pre-computate
+        per le aggregazioni più frequenti:
+    </p>
+
+    <ul>
+        <li><strong>university_outcomes</strong>: metriche aggregate per ateneo/corso (RAL mediana, placement rate, etc.)</li>
+        <li><strong>role_skill_matrix</strong>: skill più frequenti per ogni ruolo, con pesi</li>
+        <li><strong>career_transitions</strong>: probabilità di transizione ruolo→ruolo con tempi medi</li>
+        <li><strong>compensation_percentiles</strong>: distribuzioni RAL per ruolo/geo/seniority</li>
+    </ul>
+
+    <p>
+        Le materialized views vengono refreshate con cadenza giornaliera (off-peak hours) tramite job schedulati,
+        garantendo dati freschi senza impattare le performance in produzione.
+    </p>
+
+    <h3>4.3.3 Caching Strategy</h3>
+
+    <p>
+        Redis implementa una strategia di caching multi-livello:
+    </p>
+
+    <ul>
+        <li><strong>Query cache</strong> (TTL 1h): risultati di query frequenti con parametri comuni</li>
+        <li><strong>Session cache</strong> (TTL 24h): profilo utente e preferenze durante la sessione</li>
+        <li><strong>Computation cache</strong> (TTL 6h): risultati di scoring algorithms per evitare ricalcoli</li>
+    </ul>
+
     <h2>4.4 Sicurezza e Privacy</h2>
+
+    <p>
+        Data la natura sensibile dei dati trattati (informazioni professionali, retribuzioni), il sistema implementa
+        controlli di sicurezza multi-livello conformi a GDPR e best practice di settore.
+    </p>
+
+    <h3>4.4.1 Data Protection</h3>
+
+    <ul>
+        <li><strong>Encryption at rest</strong>: tutti i dati su database sono cifrati (AES-256)</li>
+        <li><strong>Encryption in transit</strong>: TLS 1.3 per tutte le comunicazioni</li>
+        <li><strong>Anonimizzazione</strong>: i profili individuali sono aggregati; nessun dato permette l'identificazione
+            diretta di persone specifiche nelle analisi</li>
+        <li><strong>Data minimization</strong>: vengono conservati solo i datapoint strettamente necessari per le funzionalità
+            della piattaforma</li>
+    </ul>
+
+    <h3>4.4.2 Access Control</h3>
+
+    <ul>
+        <li><strong>Authentication</strong>: sistema passwordless con magic link o OAuth 2.0 (Google, LinkedIn)</li>
+        <li><strong>Authorization</strong>: RBAC (Role-Based Access Control) per pannello admin</li>
+        <li><strong>API Security</strong>: rate limiting, API key rotation, request signing</li>
+        <li><strong>Audit logging</strong>: tracciamento di tutte le operazioni sensibili</li>
+    </ul>
+
+    <h3>4.4.3 Compliance GDPR</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 11.</strong> Compliance GDPR per categoria di dati.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Requisito GDPR</th>
+                    <th>Implementazione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Base legale</strong></td>
+                    <td>Legittimo interesse per dati pubblici; consenso esplicito per dati utente</td>
+                </tr>
+                <tr>
+                    <td><strong>Diritto di accesso</strong></td>
+                    <td>Export dati personali disponibile da dashboard utente</td>
+                </tr>
+                <tr>
+                    <td><strong>Diritto all'oblio</strong></td>
+                    <td>Procedura di cancellazione completa entro 30 giorni</td>
+                </tr>
+                <tr>
+                    <td><strong>Portabilità</strong></td>
+                    <td>Export in formato JSON/CSV machine-readable</td>
+                </tr>
+                <tr>
+                    <td><strong>Data retention</strong></td>
+                    <td>Policy di retention con cancellazione automatica dati obsoleti</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="page-break"></div>
 
     <!-- ==================== CHAPTER 5 ==================== -->
     <h1><span class="chapter-num">Capitolo 5</span>Integrazione Dati</h1>
 
-    <h2>5.1 Catalogo Datapoint</h2>
+    <p>
+        HR Trails opera su un dataset proprietario di workforce intelligence che viene alimentato, arricchito e sincronizzato
+        attraverso una pipeline di data integration strutturata. Questo capitolo descrive la fonte dati principale, il catalogo
+        dei datapoint disponibili, i flussi di sincronizzazione e i meccanismi di quality assurance.
+    </p>
 
-    <h2>5.2 Flusso di Sincronizzazione</h2>
+    <h2>5.1 Origine dei Dati</h2>
 
-    <h2>5.3 Data Quality e Validation</h2>
+    <p>
+        HR Trails usufruisce della base dati di <strong>SkillSherpa</strong>, piattaforma di data provisioning che raccoglie informazioni
+        pubbliche sul mercato del lavoro. SkillSherpa fornisce la <strong>materia prima</strong>: dati grezzi su profili
+        professionali, percorsi di carriera e offerte di lavoro.
+    </p>
+
+    <p>
+        Il valore aggiunto di HR Trails sta in ciò che avviene <em>dopo</em> l'acquisizione dei dati grezzi. La piattaforma trasforma
+        informazioni non strutturate in intelligence azionabile attraverso:
+    </p>
+
+    <h4>Il lavoro di HR Trails sui dati:</h4>
+
+    <ul>
+        <li><strong>Arricchimento</strong>: calcolo di metriche derivate come seniority, proficiency stimata, career velocity e
+            trend di settore</li>
+        <li><strong>Modellazione</strong>: applicazione degli algoritmi di scoring (PCS, SGI, URI) e dei modelli predittivi
+            descritti nel Capitolo 3</li>
+        <li><strong>Quality Assurance</strong>: validazione, deduplicazione e controllo di coerenza su ogni dato in ingresso</li>
+    </ul>
+
+    <p>
+        In sintesi: SkillSherpa fornisce i dati grezzi, HR Trails li trasforma in insight di valore per studenti, professionisti
+        e career counselor.
+    </p>
+
+    <h2>5.2 Catalogo Datapoint</h2>
+
+    <p>
+        Il dataset di HR Trails comprende cinque macro-categorie di datapoint, ciascuna con specifiche caratteristiche
+        di copertura, granularità e frequenza di aggiornamento.
+    </p>
+
+    <h3>5.2.1 Dati Educativi</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 12.</strong> Datapoint categoria Educazione.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Datapoint</th>
+                    <th>Tipo</th>
+                    <th>Copertura</th>
+                    <th>Fonte</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ateneo</td>
+                    <td>Categorico</td>
+                    <td>100% università italiane</td>
+                    <td>Profili pubblici</td>
+                </tr>
+                <tr>
+                    <td>Corso di laurea</td>
+                    <td>Categorico (normalizzato)</td>
+                    <td>~95%</td>
+                    <td>Profili pubblici</td>
+                </tr>
+                <tr>
+                    <td>Anno di laurea</td>
+                    <td>Numerico</td>
+                    <td>~90%</td>
+                    <td>Profili pubblici</td>
+                </tr>
+                <tr>
+                    <td>Tipo laurea (triennale/magistrale)</td>
+                    <td>Categorico</td>
+                    <td>~85%</td>
+                    <td>Inferito</td>
+                </tr>
+                <tr>
+                    <td>Master/MBA</td>
+                    <td>Booleano + dettaglio</td>
+                    <td>~80%</td>
+                    <td>Profili pubblici</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>5.2.2 Dati Professionali</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 13.</strong> Datapoint categoria Esperienza Professionale.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Datapoint</th>
+                    <th>Tipo</th>
+                    <th>Copertura</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ruolo attuale</td>
+                    <td>Categorico (normalizzato)</td>
+                    <td>100%</td>
+                    <td>Tassonomia proprietaria ~500 ruoli</td>
+                </tr>
+                <tr>
+                    <td>Azienda attuale</td>
+                    <td>Entità linkable</td>
+                    <td>100%</td>
+                    <td>Match con database aziende</td>
+                </tr>
+                <tr>
+                    <td>Settore</td>
+                    <td>Categorico (NACE)</td>
+                    <td>100%</td>
+                    <td>Derivato da azienda</td>
+                </tr>
+                <tr>
+                    <td>Storico posizioni</td>
+                    <td>Array di oggetti</td>
+                    <td>~85%</td>
+                    <td>Ultime 5 posizioni</td>
+                </tr>
+                <tr>
+                    <td>Tenure per posizione</td>
+                    <td>Numerico (mesi)</td>
+                    <td>~80%</td>
+                    <td>Calcolato da date</td>
+                </tr>
+                <tr>
+                    <td>Seniority level</td>
+                    <td>Ordinale (1-6)</td>
+                    <td>100%</td>
+                    <td>Inferito da titolo + tenure</td>
+                </tr>
+                <tr>
+                    <td>Località</td>
+                    <td>Geo (città/regione)</td>
+                    <td>~90%</td>
+                    <td>Normalizzata</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>5.2.3 Competenze</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 14.</strong> Datapoint categoria Competenze.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Datapoint</th>
+                    <th>Tipo</th>
+                    <th>Copertura</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Skill dichiarate</td>
+                    <td>Array categorico</td>
+                    <td>~70%</td>
+                    <td>Normalizzate su tassonomia ~2000 skill</td>
+                </tr>
+                <tr>
+                    <td>Skill inferite</td>
+                    <td>Array categorico</td>
+                    <td>100%</td>
+                    <td>Derivate da ruolo + settore + azienda</td>
+                </tr>
+                <tr>
+                    <td>Proficiency score</td>
+                    <td>Numerico (0-100)</td>
+                    <td>100%</td>
+                    <td>Modello proprietario multi-fattore</td>
+                </tr>
+                <tr>
+                    <td>Certificazioni</td>
+                    <td>Array categorico</td>
+                    <td>~40%</td>
+                    <td>Solo se dichiarate</td>
+                </tr>
+                <tr>
+                    <td>Lingue</td>
+                    <td>Array + livello</td>
+                    <td>~60%</td>
+                    <td>CEFR quando disponibile</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>5.2.4 Compensation</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 15.</strong> Datapoint categoria Retribuzione.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Datapoint</th>
+                    <th>Tipo</th>
+                    <th>Copertura</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>RAL stimata</td>
+                    <td>Numerico (€)</td>
+                    <td>~70%</td>
+                    <td>Modello predittivo + survey data</td>
+                </tr>
+                <tr>
+                    <td>RAL range</td>
+                    <td>Intervallo (p25-p75)</td>
+                    <td>100%</td>
+                    <td>Per combinazione ruolo/geo/seniority</td>
+                </tr>
+                <tr>
+                    <td>Compensation trend</td>
+                    <td>% YoY</td>
+                    <td>Per ruolo</td>
+                    <td>Aggregato, non individuale</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>5.2.5 Metriche Aggregate</h3>
+
+    <p>
+        Oltre ai datapoint individuali (anonimizzati e aggregati), il sistema pre-computa metriche aggregate per
+        università, ruolo, settore e geografia:
+    </p>
+
+    <ul>
+        <li><strong>Placement rate</strong>: % occupati a 6/12 mesi dalla laurea</li>
+        <li><strong>Time-to-employment</strong>: mediana giorni dalla laurea al primo impiego</li>
+        <li><strong>Career velocity</strong>: tempo mediano tra livelli di seniority</li>
+        <li><strong>Retention rate</strong>: % che rimane nello stesso settore a 3 anni</li>
+        <li><strong>Transition probability</strong>: P(ruolo B | ruolo A) con confidence interval</li>
+    </ul>
+
+    <h2>5.3 Flusso di Sincronizzazione</h2>
+
+    <p>
+        Il data layer di HR Trails viene alimentato attraverso una pipeline ETL (Extract-Transform-Load) con sincronizzazione
+        incrementale per minimizzare latenza e costi computazionali.
+    </p>
+
+    <div class="figure no-break">
+        <p class="figure-caption"><strong>Figura 10.</strong> Pipeline di data integration.</p>
+        <div class="figure-content">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 0.5cm;">
+                <div class="flow-box">Data<br>Sources</div>
+                <span style="font-size: 14pt;">→</span>
+                <div class="flow-box">Extract &<br>Normalize</div>
+                <span style="font-size: 14pt;">→</span>
+                <div class="flow-box highlight">Transform<br>& Enrich</div>
+                <span style="font-size: 14pt;">→</span>
+                <div class="flow-box">Load &<br>Index</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>5.3.1 Estrazione (Extract)</h3>
+
+    <ul>
+        <li><strong>Frequenza</strong>: incrementale giornaliera per profili attivi; full refresh settimanale</li>
+        <li><strong>Delta detection</strong>: identificazione di record modificati tramite hash comparison</li>
+        <li><strong>Rate limiting</strong>: rispetto dei limiti delle fonti per evitare blocchi</li>
+    </ul>
+
+    <h3>5.3.2 Trasformazione (Transform)</h3>
+
+    <p>
+        La fase di trasformazione applica una serie di operazioni di normalizzazione e arricchimento:
+    </p>
+
+    <ul>
+        <li><strong>Job title normalization</strong>: mapping di ~50.000 varianti verso ~500 ruoli standardizzati</li>
+        <li><strong>Company entity resolution</strong>: deduplicazione e linking di entità aziendali</li>
+        <li><strong>Skill extraction</strong>: NLP per estrazione skill da descrizioni testuali</li>
+        <li><strong>Proficiency scoring</strong>: calcolo score multi-fattore per ogni skill</li>
+        <li><strong>Compensation estimation</strong>: applicazione modello predittivo per stima RAL</li>
+    </ul>
+
+    <h3>5.3.3 Caricamento (Load)</h3>
+
+    <ul>
+        <li><strong>Upsert strategy</strong>: insert or update per gestire modifiche incrementali</li>
+        <li><strong>Index rebuild</strong>: aggiornamento indici ottimizzato (concurrent reindex)</li>
+        <li><strong>Materialized view refresh</strong>: ricalcolo aggregazioni post-load</li>
+        <li><strong>Cache invalidation</strong>: invalidazione selettiva cache Redis per dati modificati</li>
+    </ul>
+
+    <h3>5.3.4 Scheduling</h3>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 16.</strong> Schedule dei job di sincronizzazione.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Job</th>
+                    <th>Frequenza</th>
+                    <th>Finestra</th>
+                    <th>Durata tipica</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Incremental sync</td>
+                    <td>Giornaliera</td>
+                    <td>02:00 - 04:00 CET</td>
+                    <td>~45 min</td>
+                </tr>
+                <tr>
+                    <td>Full refresh</td>
+                    <td>Settimanale (domenica)</td>
+                    <td>01:00 - 06:00 CET</td>
+                    <td>~4 ore</td>
+                </tr>
+                <tr>
+                    <td>Materialized views</td>
+                    <td>Giornaliera</td>
+                    <td>05:00 - 06:00 CET</td>
+                    <td>~30 min</td>
+                </tr>
+                <tr>
+                    <td>Analytics aggregation</td>
+                    <td>Settimanale</td>
+                    <td>Domenica 06:00 CET</td>
+                    <td>~2 ore</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>5.4 Data Quality e Validation</h2>
+
+    <p>
+        La qualità dei dati è essenziale per generare insight affidabili. Il sistema effettua controlli automatici su
+        ogni dato in ingresso.
+    </p>
+
+    <h3>5.4.1 Validation Rules</h3>
+
+    <p>Ogni record viene verificato automaticamente:</p>
+
+    <ul>
+        <li><strong>Campi obbligatori</strong>: controllo che tutti i dati richiesti siano presenti</li>
+        <li><strong>Valori plausibili</strong>: es. anni di esperienza tra 0 e 50</li>
+        <li><strong>Coerenza dei riferimenti</strong>: le aziende e università citate devono esistere nel sistema</li>
+        <li><strong>Sequenza temporale</strong>: le date devono essere in ordine logico (es. laurea prima del primo impiego)</li>
+        <li><strong>Eliminazione duplicati</strong>: identificazione e unione di record doppi</li>
+    </ul>
+
+    <h3>5.4.2 Quality Metrics</h3>
+
+    <p>Il sistema monitora costantemente la qualità dei dati con soglie di allarme:</p>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 17.</strong> KPI di data quality.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metrica</th>
+                    <th>Target</th>
+                    <th>Soglia allarme</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Completeness (campi obbligatori)</td>
+                    <td>≥98%</td>
+                    <td>&lt;95%</td>
+                </tr>
+                <tr>
+                    <td>Accuracy (validation pass rate)</td>
+                    <td>≥95%</td>
+                    <td>&lt;90%</td>
+                </tr>
+                <tr>
+                    <td>Freshness (dati &lt;30 giorni)</td>
+                    <td>≥80%</td>
+                    <td>&lt;70%</td>
+                </tr>
+                <tr>
+                    <td>Duplicate rate</td>
+                    <td>&lt;2%</td>
+                    <td>&gt;5%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>5.4.3 Anomaly Detection</h3>
+
+    <p>Il sistema rileva automaticamente dati sospetti o incoerenti:</p>
+
+    <ul>
+        <li><strong>Valori anomali</strong>: numeri troppo distanti dalla media (es. stipendio 10x la norma)</li>
+        <li><strong>Variazioni improvvise</strong>: cambiamenti insoliti nei pattern dei dati</li>
+        <li><strong>Combinazioni improbabili</strong>: es. ruolo di CEO a 22 anni</li>
+    </ul>
+
+    <p>
+        I record sospetti vengono segnalati per verifica manuale e, se confermati errati, esclusi dalle statistiche
+        per mantenere l'affidabilità dei benchmark.
+    </p>
 
     <div class="page-break"></div>
 
     <!-- ==================== CHAPTER 6 ==================== -->
     <h1><span class="chapter-num">Capitolo 6</span>Roadmap di Sviluppo</h1>
 
+    <p>
+        Lo sviluppo di HR Trails segue un approccio incrementale strutturato in tre fasi, ciascuna con obiettivi
+        specifici e deliverable misurabili. Ogni fase costruisce sulle fondamenta della precedente, permettendo
+        validazioni progressive del prodotto.
+    </p>
+
+    <h2>6.1 Fase 1: Design & User Experience</h2>
+
+    <p>
+        La prima fase è dedicata alla progettazione dell'esperienza utente e alla definizione dell'identità visiva del
+        prodotto. L'obiettivo è creare tutti gli asset di design necessari per le fasi successive.
+    </p>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 18.</strong> Deliverable Fase 1.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Area</th>
+                    <th>Deliverable</th>
+                    <th>Priorità</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Homepage</strong></td>
+                    <td>Design e sviluppo della landing page hrtrails.net</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>Customer Journey</strong></td>
+                    <td>Wireframe completi dei flussi utente principali</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>UI Design</strong></td>
+                    <td>Interfacce grafiche di tutte le schermate della piattaforma</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>Design System</strong></td>
+                    <td>Componenti UI, tipografia, palette colori, iconografia</td>
+                    <td>P1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Output Fase 1</h4>
+
+    <p>Al termine della Fase 1 saranno disponibili:</p>
+
+    <ul>
+        <li>Homepage pubblica online su hrtrails.net</li>
+        <li>Wireframe navigabili dell'intera customer journey</li>
+        <li>Mockup ad alta fedeltà di tutte le interfacce utente</li>
+        <li>Documentazione del design system per lo sviluppo</li>
+    </ul>
+
+    <h2>6.2 Fase 2: Proof of Concept</h2>
+
+    <p>
+        La seconda fase trasforma i design della Fase 1 in un prodotto funzionante, collegato a un dataset di dimensioni
+        limitate. L'obiettivo è validare l'esperienza utente e la fattibilità tecnica prima dell'integrazione
+        con il database completo.
+    </p>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 19.</strong> Deliverable Fase 2.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Area</th>
+                    <th>Deliverable</th>
+                    <th>Priorità</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Frontend</strong></td>
+                    <td>Implementazione delle interfacce progettate in Fase 1</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>Dataset Demo</strong></td>
+                    <td>Import e configurazione di un dataset di test limitato</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>Funzionalità Core</strong></td>
+                    <td>Navigazione dati, visualizzazioni, confronti funzionanti</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>Infrastruttura</strong></td>
+                    <td>Setup ambiente di sviluppo e staging</td>
+                    <td>P1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Output Fase 2</h4>
+
+    <p>Al termine della Fase 2 sarà disponibile un prototipo funzionante che permette di:</p>
+
+    <ul>
+        <li>Navigare l'intera piattaforma con dati reali (dataset limitato)</li>
+        <li>Testare tutti i flussi utente end-to-end</li>
+        <li>Validare l'esperienza utente con utenti di test</li>
+        <li>Identificare eventuali problemi tecnici prima della produzione</li>
+    </ul>
+
+    <h2>6.3 Fase 3: Production & Go-to-Market</h2>
+
+    <p>
+        La terza fase prepara la piattaforma per il lancio sul mercato, integrando il database completo fornito da
+        SkillSherpa e implementando l'infrastruttura API necessaria per operare in produzione.
+    </p>
+
+    <div class="table-container no-break">
+        <p class="table-caption"><strong>Tabella 20.</strong> Deliverable Fase 3.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Area</th>
+                    <th>Deliverable</th>
+                    <th>Priorità</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>API Layer</strong></td>
+                    <td>Sviluppo e implementazione delle API di produzione</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>Database Integration</strong></td>
+                    <td>Configurazione e collegamento al database completo SkillSherpa</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>Performance</strong></td>
+                    <td>Ottimizzazione query, caching, scalabilità</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>Sicurezza</strong></td>
+                    <td>Autenticazione, autorizzazione, protezione dati</td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><strong>Monitoring</strong></td>
+                    <td>Sistema di logging, alerting e analytics</td>
+                    <td>P1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Output Fase 3</h4>
+
+    <p>Al termine della Fase 3 la piattaforma sarà pronta per il go-to-market con:</p>
+
+    <ul>
+        <li>API completamente operative sul database SkillSherpa</li>
+        <li>Piattaforma scalabile e performante per il traffico di produzione</li>
+        <li>Infrastruttura sicura e conforme alle normative privacy</li>
+        <li>Sistema di monitoring per garantire affidabilità e uptime</li>
+    </ul>
+
     <div class="page-break"></div>
 
     <!-- ==================== APPENDIX ==================== -->
     <h1>Appendice A: Glossario Datapoint</h1>
 
+    <p>
+        Questa appendice fornisce una descrizione dettagliata di tutti i datapoint disponibili nel sistema HR
+        Trails, organizzati per categoria. Per ogni datapoint sono specificati: tipo di dato, formato, modalità di acquisizione
+        e note d'uso.
+    </p>
+
     <h2>A.1 Dati Anagrafici (Anonimizzati)</h2>
+
+    <p>
+        I dati anagrafici sono trattati in forma aggregata e anonimizzata. Non è possibile risalire all'identità di
+        singoli individui attraverso la piattaforma.
+    </p>
+
+    <div class="table-container no-break">
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Formato</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>age_range</code></td>
+                    <td>Categorico</td>
+                    <td>Enum: "18-22", "23-25", "26-30", "31+"</td>
+                    <td>Range anziché età esatta per privacy</td>
+                </tr>
+                <tr>
+                    <td><code>gender</code></td>
+                    <td>Categorico</td>
+                    <td>Enum: "M", "F", "Other", "Unknown"</td>
+                    <td>Inferito quando non dichiarato</td>
+                </tr>
+                <tr>
+                    <td><code>location_region</code></td>
+                    <td>Categorico</td>
+                    <td>Codice regione ISTAT</td>
+                    <td>Regione di residenza/lavoro</td>
+                </tr>
+                <tr>
+                    <td><code>location_city</code></td>
+                    <td>Categorico</td>
+                    <td>Nome città normalizzato</td>
+                    <td>Solo per città &gt;50k abitanti</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <h2>A.2 Dati Educativi</h2>
 
+    <div class="table-container no-break">
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Formato</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>university_id</code></td>
+                    <td>Foreign Key</td>
+                    <td>UUID</td>
+                    <td>Riferimento a tabella universities</td>
+                </tr>
+                <tr>
+                    <td><code>university_name</code></td>
+                    <td>String</td>
+                    <td>Testo normalizzato</td>
+                    <td>Nome ufficiale ateneo</td>
+                </tr>
+                <tr>
+                    <td><code>university_type</code></td>
+                    <td>Categorico</td>
+                    <td>Enum: "public", "private", "online"</td>
+                    <td>Tipologia di ateneo</td>
+                </tr>
+                <tr>
+                    <td><code>degree_type</code></td>
+                    <td>Categorico</td>
+                    <td>Enum: "bachelor", "master", "single_cycle"</td>
+                    <td>Tipo di laurea</td>
+                </tr>
+                <tr>
+                    <td><code>degree_field</code></td>
+                    <td>Categorico</td>
+                    <td>Codice ISCED-F</td>
+                    <td>Campo di studio (classificazione internazionale)</td>
+                </tr>
+                <tr>
+                    <td><code>degree_name</code></td>
+                    <td>String</td>
+                    <td>Testo normalizzato</td>
+                    <td>Nome corso di laurea</td>
+                </tr>
+                <tr>
+                    <td><code>graduation_year</code></td>
+                    <td>Numerico</td>
+                    <td>YYYY</td>
+                    <td>Anno di conseguimento</td>
+                </tr>
+                <tr>
+                    <td><code>has_master</code></td>
+                    <td>Booleano</td>
+                    <td>true/false</td>
+                    <td>Presenza di master post-laurea</td>
+                </tr>
+                <tr>
+                    <td><code>has_mba</code></td>
+                    <td>Booleano</td>
+                    <td>true/false</td>
+                    <td>Presenza di MBA</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     <h2>A.3 Dati Professionali</h2>
+
+    <div class="table-container no-break">
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Formato</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>current_role</code></td>
+                    <td>Categorico</td>
+                    <td>Codice tassonomia ruoli</td>
+                    <td>~500 ruoli standardizzati</td>
+                </tr>
+                <tr>
+                    <td><code>current_role_title</code></td>
+                    <td>String</td>
+                    <td>Testo normalizzato</td>
+                    <td>Job title leggibile</td>
+                </tr>
+                <tr>
+                    <td><code>current_company_id</code></td>
+                    <td>Foreign Key</td>
+                    <td>UUID</td>
+                    <td>Riferimento a tabella companies</td>
+                </tr>
+                <tr>
+                    <td><code>company_size</code></td>
+                    <td>Categorico</td>
+                    <td>Enum: "1-10", "11-50", "51-200", "201-1000", "1000+"</td>
+                    <td>Dimensione aziendale</td>
+                </tr>
+                <tr>
+                    <td><code>industry_code</code></td>
+                    <td>Categorico</td>
+                    <td>Codice NACE Rev.2</td>
+                    <td>Settore industriale</td>
+                </tr>
+                <tr>
+                    <td><code>seniority_level</code></td>
+                    <td>Ordinale</td>
+                    <td>1-6</td>
+                    <td>1=Entry, 2=Junior, 3=Mid, 4=Senior, 5=Lead, 6=Executive</td>
+                </tr>
+                <tr>
+                    <td><code>total_experience_months</code></td>
+                    <td>Numerico</td>
+                    <td>Integer</td>
+                    <td>Esperienza totale in mesi</td>
+                </tr>
+                <tr>
+                    <td><code>current_tenure_months</code></td>
+                    <td>Numerico</td>
+                    <td>Integer</td>
+                    <td>Tenure nella posizione attuale</td>
+                </tr>
+                <tr>
+                    <td><code>career_moves</code></td>
+                    <td>Array</td>
+                    <td>JSON Array di oggetti</td>
+                    <td>Storico transizioni (max 5)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <h2>A.4 Competenze</h2>
 
+    <div class="table-container no-break">
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Formato</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>skills</code></td>
+                    <td>Array</td>
+                    <td>Array di skill_id</td>
+                    <td>Competenze associate al profilo</td>
+                </tr>
+                <tr>
+                    <td><code>skill_name</code></td>
+                    <td>String</td>
+                    <td>Testo normalizzato</td>
+                    <td>Nome della competenza</td>
+                </tr>
+                <tr>
+                    <td><code>skill_category</code></td>
+                    <td>Categorico</td>
+                    <td>Enum: "technical", "soft", "domain", "tool"</td>
+                    <td>Categoria della skill</td>
+                </tr>
+                <tr>
+                    <td><code>proficiency_score</code></td>
+                    <td>Numerico</td>
+                    <td>Float 0-100</td>
+                    <td>Score di proficiency calcolato</td>
+                </tr>
+                <tr>
+                    <td><code>skill_source</code></td>
+                    <td>Categorico</td>
+                    <td>Enum: "declared", "inferred", "certified"</td>
+                    <td>Modalità di acquisizione del dato</td>
+                </tr>
+                <tr>
+                    <td><code>certifications</code></td>
+                    <td>Array</td>
+                    <td>Array di oggetti</td>
+                    <td>Certificazioni con ente e data</td>
+                </tr>
+                <tr>
+                    <td><code>languages</code></td>
+                    <td>Array</td>
+                    <td>Array di {lang, level}</td>
+                    <td>Lingue con livello CEFR</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     <h2>A.5 Compensi</h2>
+
+    <div class="table-container no-break">
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Formato</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>salary_estimate</code></td>
+                    <td>Numerico</td>
+                    <td>Integer (€)</td>
+                    <td>RAL stimata (modello predittivo)</td>
+                </tr>
+                <tr>
+                    <td><code>salary_confidence</code></td>
+                    <td>Numerico</td>
+                    <td>Float 0-1</td>
+                    <td>Confidence della stima</td>
+                </tr>
+                <tr>
+                    <td><code>salary_p25</code></td>
+                    <td>Numerico</td>
+                    <td>Integer (€)</td>
+                    <td>25° percentile per ruolo/geo</td>
+                </tr>
+                <tr>
+                    <td><code>salary_p50</code></td>
+                    <td>Numerico</td>
+                    <td>Integer (€)</td>
+                    <td>Mediana per ruolo/geo</td>
+                </tr>
+                <tr>
+                    <td><code>salary_p75</code></td>
+                    <td>Numerico</td>
+                    <td>Integer (€)</td>
+                    <td>75° percentile per ruolo/geo</td>
+                </tr>
+                <tr>
+                    <td><code>salary_growth_yoy</code></td>
+                    <td>Numerico</td>
+                    <td>Float (%)</td>
+                    <td>Crescita anno su anno per ruolo</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>A.6 Metriche Aggregate</h2>
+
+    <p>
+        Le seguenti metriche sono calcolate a livello aggregato (università, ruolo, settore) e non sono associate a
+        singoli profili.
+    </p>
+
+    <div class="table-container no-break">
+        <table>
+            <thead>
+                <tr>
+                    <th>Metrica</th>
+                    <th>Tipo</th>
+                    <th>Formato</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>placement_rate_6m</code></td>
+                    <td>Numerico</td>
+                    <td>Float 0-1</td>
+                    <td>% occupati a 6 mesi dalla laurea</td>
+                </tr>
+                <tr>
+                    <td><code>placement_rate_12m</code></td>
+                    <td>Numerico</td>
+                    <td>Float 0-1</td>
+                    <td>% occupati a 12 mesi dalla laurea</td>
+                </tr>
+                <tr>
+                    <td><code>time_to_employment_days</code></td>
+                    <td>Numerico</td>
+                    <td>Integer</td>
+                    <td>Mediana giorni al primo impiego</td>
+                </tr>
+                <tr>
+                    <td><code>career_velocity_months</code></td>
+                    <td>Numerico</td>
+                    <td>Integer</td>
+                    <td>Tempo mediano tra livelli seniority</td>
+                </tr>
+                <tr>
+                    <td><code>transition_probability</code></td>
+                    <td>Numerico</td>
+                    <td>Float 0-1</td>
+                    <td>P(ruolo B | ruolo A)</td>
+                </tr>
+                <tr>
+                    <td><code>sample_size</code></td>
+                    <td>Numerico</td>
+                    <td>Integer</td>
+                    <td>N profili nella coorte (per significatività)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div style="margin-top: 3cm; text-align: center; color: var(--text-muted); font-size: 10pt;">
         <p>— Fine del documento —</p>
